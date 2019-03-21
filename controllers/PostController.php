@@ -5,6 +5,8 @@ namespace app\controllers;
 use Yii;
 use app\models\Post;
 use app\models\PostSearch;
+use yii\filters\AccessControl;
+use yii\web\ConflictHttpException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,6 +22,21 @@ class PostController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view'],
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -109,19 +126,32 @@ class PostController extends Controller
         return $this->redirect(['index']);
     }
 
+    private $_model;
+
     /**
      * Finds the Post model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Post the loaded model
+     * @return array|\yii\db\ActiveRecord
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Post::findOne($id)) !== null) {
-            return $model;
+        if ($this->_model === null) {
+            if (isset($id)) {
+                if (Yii::$app->user->isGuest) {
+                    $condition = 'status='
+                        . Post::STATUS_PUBLISHED
+                        . ' OR status='
+                        . Post::STATUS_ARCHIVED;
+                } else {
+                    $condition = '';
+                }
+                $this->_model = Post::find()->where(['id'=>$id])->onCondition($condition)->one();
+            }
+            if($this->_model === null)
+                throw new NotFoundHttpException('Запрашиваемая страница не существует');
         }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
+        return $this->_model;
     }
 }

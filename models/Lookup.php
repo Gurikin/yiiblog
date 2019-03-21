@@ -15,6 +15,42 @@ use Yii;
  */
 class Lookup extends \yii\db\ActiveRecord
 {
+    private static $_items = [];
+
+    /**
+     * @param $type
+     * @return mixed
+     */
+    public static function items($type)
+    {
+        if (!isset(self::$_items[$type]))
+            self::loadItems($type);
+        return self::$_items[$type];
+    }
+
+    /**
+     * @param $type
+     * @param $code
+     * @return bool
+     */
+    public static function item($type, $code) {
+        if (!isset(self::$_items[$type]))
+            self::loadItems($type);
+        return isset(self::$_items[$type][$code]) ? self::$_items[$type][$code] : false;
+    }
+
+    /**
+     * @param $type
+     */
+    private static function loadItems($type)
+    {
+        self::$_items[$type] = [];
+        $models=self::find()->where(['type'=>$type])->orderBy('position')->all();
+        foreach ($models as $model) {
+            self::$_items[$type][$model->code]=$model->name;
+        }
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -22,6 +58,7 @@ class Lookup extends \yii\db\ActiveRecord
     {
         return '{{%lookup}}';
     }
+
 
     /**
      * {@inheritdoc}
@@ -48,4 +85,6 @@ class Lookup extends \yii\db\ActiveRecord
             'position' => 'Position',
         ];
     }
+
+
 }

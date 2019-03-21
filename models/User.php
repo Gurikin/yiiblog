@@ -67,7 +67,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentity($id)
     {
-        $user = User::findOne($id);
+        return static::findOne(['id' => $id]);
     }
 
     /**
@@ -118,24 +118,9 @@ class User extends ActiveRecord implements IdentityInterface
     public function validatePassword($password)
     {
         if (Yii::$app->getSecurity()->validatePassword($password, $this->password)) {
-            true;
+            return true;
         } else {
-            false;
+            return false;
         }
     }
-
-    public function hashPassword($password) {
-        return Yii::$app->getSecurity()->generatePasswordHash($password);
-    }
-
-//    public function beforeSave($insert)
-//    {
-//        if (parent::beforeSave($insert)) {
-//            if ($this->isNewRecord) {
-//                $this->auth_key = yii::$app->security->generateRandomString();
-//            }
-//            return true;
-//        }
-//        return false;
-//    }
 }

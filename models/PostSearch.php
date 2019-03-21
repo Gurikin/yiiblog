@@ -45,6 +45,7 @@ class PostSearch extends Post
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
+            'pagination' => ['pagesize'=>5],
             'query' => $query,
         ]);
 

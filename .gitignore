@@ -22,10 +22,11 @@ Thumbs.db
 /vagrant
 /web/assets
 .bowerrc
-*.yml
-*.json
-*.lock
-*.php
+codeception.yml
+composer.json
+composer.lock
+docker-compose.yml
+requirements.php
 Vagrantfile
 yii
 yii.bat

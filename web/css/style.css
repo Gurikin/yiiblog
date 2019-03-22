@@ -1,0 +1,118 @@
+.cont-container {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 8px 15px 8px 15px;
+  min-width: 570px;
+}
+
+.cont-container .row {
+  margin: auto;
+  padding: auto;
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+.cont-container .row h5 {
+  padding: 3px 0 0 0;
+  margin: 0px 10px 0px 10px;
+}
+
+.cont-container .row .input-group .input-group-append {
+  flex: 0 0 20%;
+}
+
+.cont-container .row .input-group .input-group-text {
+  width: 100%;
+}
+
+.org-cont {
+  padding-bottom: 8px;
+  padding-top: 8px;
+}
+
+.org-cont .org-pane {
+  min-height: 275px;
+  width: 100%;
+  background-color: #e3f4f4;
+  border: 1px solid #d5e6e6;
+  -webkit-box-shadow: 0 0 15px -8px #000;
+  -moz-box-shadow: 0 0 15px -8px #000;
+  -ms-box-shadow: 0 0 15px -8px #000;
+  -o-box-shadow: 0 0 15px -8px #000;
+  box-shadow: 0 0 15px -8px #000;
+  color: #333;
+  padding: 0px 10px 10px 10px;
+}
+
+.org-cont .org-pane .org-body {
+  height: 60%;
+}
+
+.org-cont .org-pane .org-head p {
+  font-size: 20px;
+  text-align: center;
+  border-bottom: 1px solid #d2e3e3;
+  padding-bottom: 7px;
+}
+
+.org-cont .org-pane .org-footer {
+  padding-top: 15px;
+  border-top: 1px solid #d2e3e3;
+}
+
+.info-block {
+  background-color: #fafafa;
+  -webkit-box-shadow: 0px 2px 13px -2px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0px 2px 13px -2px rgba(0, 0, 0, 0.4);
+  -ms-box-shadow: 0px 2px 13px -2px rgba(0, 0, 0, 0.4);
+  -o-box-shadow: 0px 2px 13px -2px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 2px 13px -2px rgba(0, 0, 0, 0.4);
+  border: 1px solid #e6e6e6;
+}
+
+.info-block .info-head {
+  text-align: center;
+  color: #488aaa;
+  margin-top: 3px;
+}
+
+.info-block .info-header {
+  background-color: #dff0f0;
+  border-bottom: 1px solid #d9eaea;
+  padding: 15px 5px 10px 5px;
+}
+
+.info-block .info-header p {
+  padding: 0;
+  margin: 0;
+  line-height: 0;
+}
+
+.info-block .info-title {
+  text-align: center;
+}
+
+.info-block .info-title h2 {
+  font-size: 16px;
+}
+
+.info-block .info-content {
+  padding: 0;
+}
+
+.info-block .info-content p {
+  font-size: 14px;
+  margin: 5px 0;
+  padding: 5px 10px 0 10px;
+}
+
+.info-block .info-footer {
+  padding: 10px 25px 10px 10px;
+  border-top: 1px solid #d2e3e3;
+}
+
+@media only screen and (min-width: 50px) and (max-width: 768px) {
+  .org-cont {
+    min-width: 600px;
+  }
+}

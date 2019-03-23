@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Comment;
 use Throwable;
 use Yii;
 use app\models\Post;
@@ -86,10 +87,15 @@ class PostController extends Controller
      */
     public function actionView($id)
     {
+        $post = $this->findModel($id);
+        $comment = $this->newComment($post);
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $post,
+            'comment' => $comment,
         ]);
     }
+
 
     /**
      * Creates a new Post model.
@@ -149,7 +155,7 @@ class PostController extends Controller
             if (!Yii::$app->request->isAjax)
                 $this->redirect(array('admin'));
         } else
-            throw new NotFoundHttpException('Invalid request. Please do not repeat this request again.',404);
+            throw new NotFoundHttpException('Invalid request. Please do not repeat this request again.', 404);
         return $this->redirect(array('admin'));
 //        return $this->redirect(['view', 'id' => $id]);
     }
@@ -181,5 +187,24 @@ class PostController extends Controller
                 throw new NotFoundHttpException('Запрашиваемая страница не существует');
         }
         return $this->_model;
+    }
+
+    /**
+     * @param $post Post
+     * @return Comment
+     */
+    protected function newComment($post)
+    {
+        $comment = new Comment();
+        $request = Yii::$app->request;
+        if (($request->isPost) && isset ($request->getParams()['Comment'])) {
+            $comment->attributes = $request->getParams()['Comment'];
+            if ($post->addComment($comment)) {
+                if ($comment->status==Comment::STATUS_PENDING)
+                    Yii::$app->session->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
+                $this->refresh();
+            }
+        }
+        return $comment;
     }
 }

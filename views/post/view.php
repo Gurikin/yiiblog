@@ -1,5 +1,6 @@
 <?php
 
+use yii\web\Controller;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -38,5 +39,19 @@ $this->params['breadcrumbs'][] = $this->title;
             'author_id',
         ],
     ]) ?>
+
+    <div id="comments">
+        <?php if ($model->getCommentCount()>=1): ?>
+            <h3>
+                <?= $model->commentCount . ' comment(s)'?>
+            </h3>
+            <?php
+            echo $this->render('_comments', [
+                    'post' => $model,
+                    'comments' => $model->comments,
+                ]);
+            ?>
+        <?php endif; ?>
+    </div>
 
 </div>

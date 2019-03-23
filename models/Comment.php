@@ -20,6 +20,9 @@ use Yii;
  */
 class Comment extends \yii\db\ActiveRecord
 {
+    const STATUS_PENDING=1;
+    const STATUS_APPROVED=2;
+
     /**
      * {@inheritdoc}
      */
@@ -34,11 +37,10 @@ class Comment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['content', 'status', 'author', 'email', 'post_id'], 'required'],
-            [['content'], 'string'],
-            [['status', 'create_time', 'post_id'], 'integer'],
+            [['content', 'author', 'email'], 'required'],
             [['author', 'email', 'url'], 'string', 'max' => 128],
-            [['post_id'], 'exist', 'skipOnError' => true, 'targetClass' => Post::className(), 'targetAttribute' => ['post_id' => 'id']],
+            [['email'], 'email'],
+            [['url'], 'url'],
         ];
     }
 
@@ -49,13 +51,13 @@ class Comment extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'content' => 'Content',
+            'content' => 'Comment',
             'status' => 'Status',
             'create_time' => 'Create Time',
-            'author' => 'Author',
+            'author' => 'Name',
             'email' => 'Email',
-            'url' => 'Url',
-            'post_id' => 'Post ID',
+            'url' => 'Website',
+            'post_id' => 'Post',
         ];
     }
 
@@ -65,5 +67,32 @@ class Comment extends \yii\db\ActiveRecord
     public function getPost()
     {
         return $this->hasOne(Post::className(), ['id' => 'post_id']);
+    }
+
+    /**
+     * @param bool $insert
+     * @return bool
+     */
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord)
+                $this->create_time = time();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param Post the post that this comment belongs to. If null, the method
+     * will query for the post.
+     * @return string the permalink URL for this comment
+     */
+    public function getUrl($post=null)
+    {
+        if($post===null)
+            $post=$this->post;
+        return $post->url.'#c'.$this->id;
     }
 }

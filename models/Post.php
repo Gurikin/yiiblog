@@ -87,7 +87,8 @@ class Post extends \yii\db\ActiveRecord
     private $_oldTags;
 
     /**
-     *
+     * @param $insert
+     * @param $changedAttributes
      */
     public function afterSave($insert, $changedAttributes)
     {
@@ -110,7 +111,7 @@ class Post extends \yii\db\ActiveRecord
     public function afterDelete()
     {
         parent::afterDelete();
-        Comment::deleteAll('post_id='.$this->id);
+        Comment::deleteAll('post_id=' . $this->id);
         (new Tag())->updateFrequency($this->tags, '');
     }
 

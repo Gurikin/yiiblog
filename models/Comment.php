@@ -85,9 +85,8 @@ class Comment extends \yii\db\ActiveRecord
     }
 
     /**
-     * @param Post the post that this comment belongs to. If null, the method
-     * will query for the post.
-     * @return string the permalink URL for this comment
+     * @param null $post Post
+     * @return string
      */
     public function getUrl($post=null)
     {

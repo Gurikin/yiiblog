@@ -4,9 +4,9 @@ return [
     'class' => 'yii\db\Connection',
     'dsn' => 'mysql:host=localhost;dbname=yiiblog',
     'username' => 'root',
-    'password' => '',
+    'password' => 'root',
     'charset' => 'utf8',
-    'tablePrefix' => 'tbl_',
+    'tablePrefix'=>'tbl_',
 
     // Schema cache options (for production environment)
     //'enableSchemaCache' => true,

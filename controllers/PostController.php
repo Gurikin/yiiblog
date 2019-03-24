@@ -13,6 +13,9 @@ use yii\web\ConflictHttpException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\widgets\ActiveForm;
+use yii\log\Logger;
+use yii\web\Response;
 
 /**
  * PostController implements the CRUD actions for Post model.
@@ -84,10 +87,12 @@ class PostController extends Controller
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
+     * @throws \yii\base\ExitException
      */
     public function actionView($id)
     {
         $post = $this->findModel($id);
+        /** @var Post $post */
         $comment = $this->newComment($post);
 
         return $this->render('view', [
@@ -146,12 +151,7 @@ class PostController extends Controller
     {
         if (Yii::$app->request->isPost) {
             // we only allow deletion via POST request
-            try {
-                $this->findModel($id)->delete();
-            } catch (StaleObjectException $e) {
-            } catch (NotFoundHttpException $e) {
-            } catch (Throwable $e) {
-            }
+            $this->findModel($id)->delete();
             if (!Yii::$app->request->isAjax)
                 $this->redirect(array('admin'));
         } else
@@ -191,17 +191,23 @@ class PostController extends Controller
 
     /**
      * @param $post Post
-     * @return Comment
+     * @return Comment|array
+     * @throws \yii\base\ExitException
      */
     protected function newComment($post)
     {
         $comment = new Comment();
-        $request = Yii::$app->request;
-        if (($request->isPost) && isset ($request->getParams()['Comment'])) {
-            $comment->attributes = $request->getParams()['Comment'];
+        $request = Yii::$app->request->post();
+        if (isset($request['ajax']) && $request['ajax'] === 'comment-form') {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($comment);
+            Yii::$app->end();
+        }
+        if (isset ($request['Comment'])) {
+            $comment->attributes = $request['Comment'];
             if ($post->addComment($comment)) {
-                if ($comment->status==Comment::STATUS_PENDING)
-                    Yii::$app->session->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
+                if ($comment->status == Comment::STATUS_PENDING)
+                    Yii::$app->session->setFlash('commentSubmitted', 'Thank you for your comment. Your comment will be posted once it is approved.');
                 $this->refresh();
             }
         }

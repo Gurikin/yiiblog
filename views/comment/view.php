@@ -24,6 +24,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?php
+        if ($model->status == \app\models\Comment::STATUS_PENDING)
+            echo Html::a('Approve', ['approve', 'id' => $model->id], [
+                'class' => 'btn btn-success',
+                'data' => [
+                    'confirm' => 'Are you sure you want to approve this item?',
+                    'method' => 'post',
+                ],
+            ]);
+        ?>
     </p>
 
     <?= DetailView::widget([

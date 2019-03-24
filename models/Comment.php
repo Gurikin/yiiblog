@@ -40,7 +40,7 @@ class Comment extends \yii\db\ActiveRecord
             [['content', 'author', 'email'], 'required'],
             [['author', 'email', 'url'], 'string', 'max' => 128],
             [['email'], 'email'],
-            [['url'], 'url'],
+            [['url'], 'url', 'defaultScheme' => ''],
         ];
     }
 
@@ -78,6 +78,7 @@ class Comment extends \yii\db\ActiveRecord
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord)
                 $this->create_time = time();
+                $this->status = self::STATUS_PENDING;
             return true;
         } else {
             return false;
@@ -93,5 +94,16 @@ class Comment extends \yii\db\ActiveRecord
         if($post===null)
             $post=$this->post;
         return $post->url.'#c'.$this->id;
+    }
+
+    /**
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function approve()
+    {
+        //$this->setAttribute('status',self::STATUS_APPROVED);
+        //$this->status = self::STATUS_APPROVED;
+        $this->updateAttributes(['status'=>self::STATUS_APPROVED]);
     }
 }

@@ -120,7 +120,7 @@ class Post extends \yii\db\ActiveRecord
      */
     public function getComments()
     {
-        return $this->hasMany(Comment::className(), ['post_id' => 'id'])->where(['status' => Comment::STATUS_APPROVED])->orderBy('create_time');//->all();
+        return $this->hasMany(Comment::className(), ['post_id' => 'id'])->where(['status' => Comment::STATUS_APPROVED])->orderBy('create_time');
     }
 
     /**
@@ -129,6 +129,15 @@ class Post extends \yii\db\ActiveRecord
     public function getCommentCount()
     {
         return count($this->getComments()->all());
+    }
+
+    /**
+     * @param $comment Comment
+     * @return mixed
+     */
+    public function addComment($comment) {
+        $comment->post_id=$this->id;
+        return $comment->save();
     }
 
     /**
@@ -154,15 +163,5 @@ class Post extends \yii\db\ActiveRecord
     public function getUrl()
     {
         return Yii::$app->urlManager->createUrl(['post/view', 'id' => $this->id, 'title' => $this->title]);
-    }
-
-    /**
-     * @param $comment Comment
-     * @return mixed
-     */
-    public function addComment($comment) {
-        $comment->status = Yii::$app->params['commentNeedApproval'] ? Comment::STATUS_PENDING : Comment::STATUS_APPROVED;
-        $comment->post_id=$this->id;
-        return $comment->save();
     }
 }

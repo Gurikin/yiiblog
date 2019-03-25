@@ -213,4 +213,18 @@ class PostController extends Controller
         }
         return $comment;
     }
+
+    /**
+     * @return string
+     */
+    public function actionAjax()
+    {
+        $data = Yii::$app->request;
+        if (isset($data)) {
+            $test = "Ajax Worked!";
+        } else {
+            $test = "Ajax failed";
+        }
+        return \yii\helpers\Json::encode($test);
+    }
 }

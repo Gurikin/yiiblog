@@ -12,6 +12,7 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
 AppAsset::register($this);
+Yii::$app->name = "YiiBlog";
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -28,37 +29,7 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-light bg-light fixed-top navbar-fixed-top navbar-expand-lg navbar-expand-md navbar',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav ml-auto'],
-        'items' => [
-            ['label' => 'Post', 'url' => ['/post/index']],
-            ['label' => 'Comment', 'url' => ['/comment/index']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (
-            ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn nav-link']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
-    ]);
-    NavBar::end();
-    ?>
-
+    <?= $this->render('main-menu',[])?>
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -66,15 +37,13 @@ AppAsset::register($this);
             'activeItemTemplate' => '<li class="breadcrumb-item active" aria-current="page">{link}</li>',
         ]) ?>
         <?= Alert::widget() ?>
-        <?= $content ?>
+        <?= $this->render('content', ['content'=>$content]); ?>
     </div>
 </div>
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-left">&copy; BIV <?= date('Y') ?></p>
     </div>
 </footer>
 

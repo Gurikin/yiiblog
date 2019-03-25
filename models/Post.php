@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\widgets\DetailView;
 
 /**
  * This is the model class for table "{{%post}}".

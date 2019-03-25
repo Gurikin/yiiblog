@@ -106,4 +106,12 @@ class Comment extends \yii\db\ActiveRecord
         //$this->status = self::STATUS_APPROVED;
         $this->updateAttributes(['status'=>self::STATUS_APPROVED]);
     }
+
+    /**
+     * @return integer the number of comments that are pending approval
+     */
+    public function getPendingCommentCount()
+    {
+        return self::find()->where(['status'=>self::STATUS_PENDING])->count();
+    }
 }

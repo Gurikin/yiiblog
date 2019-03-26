@@ -16,11 +16,11 @@ Thumbs.db
 /vendor
 
 # yii dirs
-/config
-/mail
-/runtime
-/vagrant
-/web/assets
+config
+mail
+runtime
+vagrant
+web/assets
 .bowerrc
 codeception.yml
 composer.json

@@ -58,17 +58,17 @@ class PostSearch extends Post
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'status' => $this->status,
-            'create_time' => $this->create_time,
-            'update_time' => $this->update_time,
-            'author_id' => $this->author_id,
-        ]);
+//        $query->andFilterWhere([
+//            'id' => $this->id,
+//            'status' => $this->status,
+//            'create_time' => $this->create_time,
+//            'update_time' => $this->update_time,
+//            'author_id' => $this->author_id,
+//        ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'content', $this->content])
-            ->andFilterWhere(['like', 'tags', $this->tags]);
+        $query->andFilterWhere(['like', 'title', $params['title']])
+            ->andFilterWhere(['like', 'content', $params['content']])
+            ->andFilterWhere(['like', 'tags', $params['tag']]);
 
         return $dataProvider;
     }

@@ -110,6 +110,20 @@ class CommentController extends Controller
     }
 
     /**
+     * @param $id
+     * @throws NotFoundHttpException
+     */
+    public function actionApprove($id) {
+        if(Yii::$app->request->isPost) {
+            $comment=$this->findModel($id);
+            $comment->approve();
+            $this->redirect(['index']);
+        } else {
+            throw new NotFoundHttpException('Invalid request...',400);
+        }
+    }
+
+    /**
      * Finds the Comment model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id

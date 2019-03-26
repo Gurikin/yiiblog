@@ -45,7 +45,7 @@ class CommentSearch extends Comment
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
-            'query' => $query,
+            'query' => $query->innerJoinWith('post'),
         ]);
 
         $this->load($params);
@@ -67,7 +67,8 @@ class CommentSearch extends Comment
         $query->andFilterWhere(['like', 'content', $this->content])
             ->andFilterWhere(['like', 'author', $this->author])
             ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'url', $this->url]);
+            ->andFilterWhere(['like', 'url', $this->url])
+            ->orderBy('status, create_time DESC');
 
         return $dataProvider;
     }

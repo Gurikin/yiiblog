@@ -12,7 +12,7 @@ NavBar::begin([
     ],
 ]);
 echo Nav::widget([
-    'options' => ['class' => 'navbar-nav flex-column ml-auto'],
+    'options' => ['class' => 'navbar-nav flex-column mr-auto'],
     'items' => [
         ['label' => 'Create New Post', 'url' => ['/post/create']],
         ['label' => 'Manage Posts', 'url' => ['/post/admin'], 'visible' => !Yii::$app->user->isGuest],

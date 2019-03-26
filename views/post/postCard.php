@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use app\models\Tag;
 use app\models\Post;
 ?>
-<div class="org-pane animated bounceInUp delay-0.5s">
+<div class="org-pane animated flipInX">
     <div class="org-head">
         <p><a href="/post/view?id=<?= Html::encode($model->id) ?>"><?= Html::encode($model->title) ?></a></p>
     </div>

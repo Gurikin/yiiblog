@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'pager' => [
             'options' => [
                 'tag' => 'div',
-                'class' => 'pagination',
+                'class' => 'pagination animated fadeIn delay-1s',
                 'id' => 'pager-container',
             ],
             'linkOptions' => ['class' => 'page-link'],

@@ -7,13 +7,35 @@ $config = [
     'defaultRoute' => 'post/index',
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
+    'language' => 'ru-RU',
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
         '@views' => '/views'
     ],
     'components' => [
+        'view' => [
+            'class' => 'yii\web\View',
+            'theme' => [
+                'class' => 'yii\base\Theme',
+                'pathMap' => ['@app/views' => 'themes/chess-yii2-1495410217'],
+                'baseUrl'   => 'themes/chess-yii2-1495410217'
+            ]
+        ],
+        'cache' => [
+            'class'=>'DbCache',
+        ],
+        'log' => [
+            'traceLevel' => YII_DEBUG ? 3 : 0,
+            'targets' => [
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning'],
+                    'maxLogFiles' => 10,
+                ],
+            ],
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'QMGgwTYNc1W9l2Y3Kkl121fsvsB02HJd',
@@ -51,6 +73,10 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'post/<id:\d+>/<title:.*?>' => 'post/view',
+                'posts/<tag:.*?>' => 'post/index',
+                'post/update/<id:\d+>' => 'post/update',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>'
             ],
         ],
 

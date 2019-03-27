@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use app\models\Tag;
 use app\models\Post;
 ?>
-<div class="org-pane animated flipInX">
+<div class="org-pane animated flipInX fast">
     <div class="org-head">
         <p><a href="/post/view?id=<?= Html::encode($model->id) ?>"><?= Html::encode($model->title) ?></a></p>
     </div>
@@ -16,8 +16,8 @@ use app\models\Post;
     </div>
     <div class="org-footer d-flex justify-content-end">
         <span class="mr-auto"><?= Html::encode($model->getAttributeLabel('status') . ": " . $model->status)?></span>
-        <a href="/post/view?id=<?= Html::encode($model->id) ?>"
-           class="btn btn-primary ml-auto align-right">Подробнее
-        </a>
+        <?php
+            echo Html::a('Подробнее',Yii::$app->urlManager->createUrl(['post/view', 'id' => $model->id, 'title' => $model->title]),['class'=>'btn btn-primary ml-auto align-right']);
+        ?>
     </div>
 </div>

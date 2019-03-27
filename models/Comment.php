@@ -114,4 +114,12 @@ class Comment extends \yii\db\ActiveRecord
     {
         return self::find()->where(['status'=>self::STATUS_PENDING])->count();
     }
+
+    /**
+     * @param int $limit
+     * @return array|\yii\db\ActiveQuery|\yii\db\ActiveRecord[]
+     */
+    public function findRecentComments($limit=10) {
+        return self::find()->with('post')->where(['status'=>self::STATUS_APPROVED,])->orderBy(['create_time'=>SORT_DESC])->limit($limit);
+    }
 }

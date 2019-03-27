@@ -49,11 +49,14 @@ class PostSearch extends Post
             'query' => $query,
         ]);
 
-        $this->load($params);
+        $this->title = $params['title'] ?? '';
+        $this->tags = $params['tag'] ?? '';
+//        if ($this->load($params))
+//            return $dataProvider;
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
+            $query->where('0=1');
             return $dataProvider;
         }
 
@@ -66,9 +69,9 @@ class PostSearch extends Post
 //            'author_id' => $this->author_id,
 //        ]);
 
-        $query->andFilterWhere(['like', 'title', $params['title']])
-            ->andFilterWhere(['like', 'content', $params['content']])
-            ->andFilterWhere(['like', 'tags', $params['tag']]);
+        $query->andFilterWhere(['like', 'title', $this->title])//$params['title']])
+            ->andFilterWhere(['like', 'content', $this->content])// $params['content']])
+            ->andFilterWhere(['like', 'tags', $this->tags]);// $params['tag']]);
 
         return $dataProvider;
     }
